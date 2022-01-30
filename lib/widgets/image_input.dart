@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspath;
 
 class ImageInput extends StatefulWidget {
   const ImageInput({Key? key}) : super(key: key);
@@ -14,15 +16,22 @@ class ImageInput extends StatefulWidget {
 class _ImageInputState extends State<ImageInput> {
   File? _storedImage;
 
-  //todo 1
   Future<void> _takePicture() async {
-    print('klik');
     final ImagePicker _picker = ImagePicker();
     final imageFile = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
     );
-    print(imageFile.hashCode);
+
+    setState(() {
+      _storedImage = File(imageFile!.path);
+    });
+
+
+    final appDir = await syspath.getApplicationDocumentsDirectory(); //todo 1
+    final fileName = path.basename(imageFile!.path); //todo 2
+    final saveImage = await imageFile.saveTo('${appDir.path}/$fileName'); //todo 3 (finish)
+
   }
 
   @override
@@ -65,16 +74,3 @@ class _ImageInputState extends State<ImageInput> {
     );
   }
 }
-
-//todo 2 tambahkan dibawah ini pada ios/Runner/Info.plist
-/*
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>image permission</string>
-    <key>NSCameraUsageDescription</key>
-    <string>image permission</string>
- */
-
-//todo 3 tambahkan pada android manifest android ke tag application (finish)
-/*
-    android:requestLegacyExternalStorage="true"
- */
