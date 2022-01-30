@@ -3,7 +3,6 @@ import 'package:path/path.dart' as path;
 
 class DBHelper {
 
-  //todo 1 (finish)
   static Future<sql.Database> database() async{
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(path.join(dbPath, 'places.db'),
@@ -13,14 +12,21 @@ class DBHelper {
         }, version: 1);
   }
 
-  // static Future<void> insert(String table, Map<String, dynamic> data) async {
-  //
-  //   final db = await DBHelper.database();
-  //
-  //   db.insert(
-  //     table,
-  //     data,
-  //     conflictAlgorithm: sql.ConflictAlgorithm.replace,
-  //   );
-  // }
+  //todo 1
+  static Future<void> insert(String table, Map<String, dynamic> data) async {
+
+    final db = await DBHelper.database();
+
+    db.insert(
+      table,
+      data,
+      conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+  }
+
+  //todo 2 (next great_places_provider)
+  static Future<List<Map<String,dynamic>>> getData(String table) async{
+    final db = await DBHelper.database();
+    return db.query(table);
+  }
 }

@@ -33,12 +33,12 @@ class _ImageInputState extends State<ImageInput> {
     }
 
     setState(() {
-      _storedImage = File(imageFile!.path);
+      _storedImage = File(imageFile.path);
     });
 
 
     final appDir = await syspath.getApplicationDocumentsDirectory();
-    final fileName = path.basename(imageFile!.path);
+    final fileName = path.basename(imageFile.path);
 
     //covert Xfie to file
     final convTofile = File(imageFile.path);
