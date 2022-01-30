@@ -7,7 +7,10 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspath;
 
 class ImageInput extends StatefulWidget {
-  const ImageInput({Key? key}) : super(key: key);
+
+  Function onSelectImage; //todo 4
+  ImageInput(this.onSelectImage); //todo 5
+
 
   @override
   _ImageInputState createState() => _ImageInputState();
@@ -28,9 +31,18 @@ class _ImageInputState extends State<ImageInput> {
     });
 
 
-    final appDir = await syspath.getApplicationDocumentsDirectory(); //todo 1
-    final fileName = path.basename(imageFile!.path); //todo 2
-    final saveImage = await imageFile.saveTo('${appDir.path}/$fileName'); //todo 3 (finish)
+    final appDir = await syspath.getApplicationDocumentsDirectory();
+    final fileName = path.basename(imageFile!.path);
+
+    //covert Xfie to file
+    final convTofile = File(imageFile.path);
+
+    //save image
+    final saveImage = await convTofile.copy('${appDir.path}/$fileName');
+
+    //todo 6 (next add place screen)
+    print('app dir : $appDir, fileName: $fileName');
+    widget.onSelectImage(saveImage);
 
   }
 
