@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 
 import '../widgets/image_input.dart';
 import '../providers/great_places_provider.dart';
+import '../widgets/location_input.dart';
 
-//todo 1 (next main)
+
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
 
@@ -17,21 +18,18 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titleController = TextEditingController();
-  File? _pickedImage; //todo 1
+  File? _pickedImage;
 
   void _selectImage(File pickedImage) {
-    //todo 2
     _pickedImage = pickedImage;
   }
 
-  //todo 7 (next great_places_provider)
   void _addPlace() {
     if (_titleController.text.isEmpty || _pickedImage == null) {
       print('null');
       return;
     }
 
-    //todo 9
     Provider.of<GreatPlacesProvider>(
       context,
       listen: false,
@@ -66,7 +64,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       height: 10,
                     ),
 
-                    ImageInput(_selectImage), //todo 3 (next image_input)
+                    ImageInput(_selectImage),
+
+                    SizedBox(
+                      height: 10,
+                    ),
+
+                    LocationInput(), //todo 2
                   ],
                 ),
               ),
@@ -75,7 +79,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           RaisedButton.icon(
             icon: Icon(Icons.add),
             label: Text('Add place'),
-            onPressed: _addPlace, //todo 10 (next place_list_screen)
+            onPressed: _addPlace,
             elevation: 0,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             color: Theme.of(context).accentColor,
@@ -85,3 +89,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     );
   }
 }
+
+//todo 3 tambahkan permisson location ios (finish)
+
+/*
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>location permission</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>location permission</string>
+ */
