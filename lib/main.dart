@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './providers/great_places_provider.dart';
 import './screens/place_list_screen.dart';
+import './screens/add_place_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value( //todo 3 (finish)
+    return ChangeNotifierProvider.value(
       value: GreatPlacesProvider(),
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.amber,
         ),
         home: PlaceListScreen(),
+        routes: {
+          AddPlaceScreen.routeName : (ctx) => AddPlaceScreen(), //todo 2 (next place_list_screen)
+        },
       ),
     );
   }
