@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
-//todo 1 (next add_place_screen)
 class LocationInput extends StatefulWidget {
   const LocationInput({Key? key}) : super(key: key);
 
@@ -10,6 +10,13 @@ class LocationInput extends StatefulWidget {
 
 class _LocationInputState extends State<LocationInput> {
   String? _previewImageUrl;
+
+  //todo 1 (finish)
+  Future<void> _getCurrentLocation() async{
+    final locData = await Location().getLocation();
+    print(locData.latitude);
+    print(locData.longitude);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +41,7 @@ class _LocationInputState extends State<LocationInput> {
         Row(
           children: [
             FlatButton.icon(
-              onPressed: () {},
+              onPressed: _getCurrentLocation,
               icon: Icon(Icons.location_on),
               label: Text('Current location'),
               textColor: Theme.of(context).primaryColor,
