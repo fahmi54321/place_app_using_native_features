@@ -20,7 +20,7 @@ class PlaceLocation {
   final double longitude;
   final String address;
 
-  PlaceLocation({
+  const PlaceLocation({ //todo 6 change to const (next location_input)
     required this.latitude,
     required this.longitude,
     this.address = '',
