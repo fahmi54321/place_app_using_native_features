@@ -4,10 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/place.dart';
 
 class MapScreen extends StatefulWidget {
-  final PlaceLocation initialLocation; //todo 2
-  final bool isSelection; //todo 3
+  final PlaceLocation initialLocation;
+  final bool isSelection;
 
-  // todo 4
   MapScreen({
     this.initialLocation = const PlaceLocation(
       latitude: 37.422,
@@ -21,13 +20,33 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedLocation; //todo 1
+
+  void _selectLocation(LatLng position) {
+    //todo 2
+    setState(() {
+      _pickedLocation = position;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Map'),
+        actions: [
+          if (widget.isSelection == true) //todo 5
+            IconButton(
+              onPressed: _pickedLocation == null ? null : () {
+                Navigator.of(context).pop(_pickedLocation); //todo 6 (next location_input)
+              },
+              icon: Icon(
+                Icons.check,
+              ),
+            ),
+        ],
       ),
-      body: GoogleMap( //todo 5 (next place)
+      body: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: LatLng(
             widget.initialLocation.latitude,
@@ -35,14 +54,17 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 16,
         ),
+        onTap: widget.isSelection == true ? _selectLocation : null, //todo 3
+        markers: _pickedLocation == null
+            ? {}
+            : {
+                Marker(
+                  //todo 4
+                  markerId: MarkerId('m1'),
+                  position: _pickedLocation!,
+                ),
+              },
       ),
     );
   }
 }
-
-//todo 1
-/*
-  untuk config awal pada android dan ios bisa dilihat dokumentasi google map flutter
-  pada pub.dev
-
- */

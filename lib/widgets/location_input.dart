@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import '../helpers/location_helper.dart';
@@ -28,8 +29,8 @@ class _LocationInputState extends State<LocationInput> {
 
   //kenapa makai future dan navigator.push karena saat kembali dari map screen
   // dia akan memabawa data yang diperlukan
-  Future<void> _selectOnMap() async { //todo 7
-    final selectedLocation = await Navigator.of(context).push(MaterialPageRoute(
+  Future<void> _selectOnMap() async {
+    final selectedLocation = await Navigator.of(context).push<LatLng>(MaterialPageRoute( //todo 7 (tambah spesifikasi LatLng)
       fullscreenDialog: true,
       builder: (ctx) => MapScreen(
         isSelection: true,
@@ -39,6 +40,8 @@ class _LocationInputState extends State<LocationInput> {
     if(selectedLocation == null){
       return;
     }
+
+    print(selectedLocation.latitude); //todo 8 (finish)
   }
 
   @override
