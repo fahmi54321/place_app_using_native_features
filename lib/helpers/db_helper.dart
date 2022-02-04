@@ -8,11 +8,10 @@ class DBHelper {
     return sql.openDatabase(path.join(dbPath, 'places.db'),
         onCreate: (db, version) {
           return db.execute(
-              'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)');
-        }, version: 1);
+          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lng REAL, address TEXT)'); //todo 13 (next great_place_providers)
+    }, version: 1);
   }
 
-  //todo 1
   static Future<void> insert(String table, Map<String, dynamic> data) async {
 
     final db = await DBHelper.database();
@@ -24,7 +23,6 @@ class DBHelper {
     );
   }
 
-  //todo 2 (next great_places_provider)
   static Future<List<Map<String,dynamic>>> getData(String table) async{
     final db = await DBHelper.database();
     return db.query(table);

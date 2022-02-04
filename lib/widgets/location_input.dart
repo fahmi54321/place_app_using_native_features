@@ -6,7 +6,9 @@ import '../helpers/location_helper.dart';
 import '../screens/map_screen.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({Key? key}) : super(key: key);
+
+  final Function onSelectPlace; //todo 3
+  LocationInput(this.onSelectPlace); //todo 4
 
   @override
   _LocationInputState createState() => _LocationInputState();
@@ -25,12 +27,15 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
+
+    widget.onSelectPlace(locData.latitude,locData.longitude); //todo 5
+
   }
 
   //kenapa makai future dan navigator.push karena saat kembali dari map screen
   // dia akan memabawa data yang diperlukan
   Future<void> _selectOnMap() async {
-    final selectedLocation = await Navigator.of(context).push<LatLng>(MaterialPageRoute( //todo 7 (tambah spesifikasi LatLng)
+    final selectedLocation = await Navigator.of(context).push<LatLng>(MaterialPageRoute(
       fullscreenDialog: true,
       builder: (ctx) => MapScreen(
         isSelection: true,
@@ -41,7 +46,7 @@ class _LocationInputState extends State<LocationInput> {
       return;
     }
 
-    print(selectedLocation.latitude); //todo 8 (finish)
+    widget.onSelectPlace(selectedLocation.latitude,selectedLocation.longitude); //todo 6 (next add_place_screen)
   }
 
   @override
@@ -73,7 +78,7 @@ class _LocationInputState extends State<LocationInput> {
               textColor: Theme.of(context).primaryColor,
             ),
             FlatButton.icon(
-              onPressed: _selectOnMap, //todo 8 (finish)
+              onPressed: _selectOnMap,
               icon: Icon(Icons.map),
               label: Text('Select on map'),
               textColor: Theme.of(context).primaryColor,

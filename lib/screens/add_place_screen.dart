@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../widgets/image_input.dart';
 import '../providers/great_places_provider.dart';
 import '../widgets/location_input.dart';
+import '../models/place.dart';
 
 
 class AddPlaceScreen extends StatefulWidget {
@@ -19,13 +20,14 @@ class AddPlaceScreen extends StatefulWidget {
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titleController = TextEditingController();
   File? _pickedImage;
+  PlaceLocation? _pickedLocation; //todo 1
 
   void _selectImage(File pickedImage) {
     _pickedImage = pickedImage;
   }
 
   void _addPlace() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
+    if (_titleController.text.isEmpty || _pickedImage == null || _pickedLocation == null) { //todo 7
       print('null');
       return;
     }
@@ -33,9 +35,14 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     Provider.of<GreatPlacesProvider>(
       context,
       listen: false,
-    ).addPlace(_titleController.text, _pickedImage!);
+    ).addPlace(_titleController.text, _pickedImage!,_pickedLocation!); //todo 8 (next great_place_provider)
 
     Navigator.of(context).pop();
+  }
+
+  //todo 2 (next location_input)
+  void _selectPlace(double lat, double lng){
+    _pickedLocation = PlaceLocation(latitude: lat, longitude: lng);
   }
 
   @override
@@ -70,7 +77,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                       height: 10,
                     ),
 
-                    LocationInput(), //todo 2
+                    LocationInput(_selectPlace),
                   ],
                 ),
               ),
@@ -89,12 +96,3 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     );
   }
 }
-
-//todo 3 tambahkan permisson location ios (finish)
-
-/*
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>location permission</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>location permission</string>
- */
