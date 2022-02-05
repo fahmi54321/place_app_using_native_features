@@ -20,7 +20,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LatLng? _pickedLocation; //todo 1
+  LatLng? _pickedLocation;
 
   void _selectLocation(LatLng position) {
     //todo 2
@@ -35,10 +35,10 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: Text('Your Map'),
         actions: [
-          if (widget.isSelection == true) //todo 5
+          if (widget.isSelection == true)
             IconButton(
               onPressed: _pickedLocation == null ? null : () {
-                Navigator.of(context).pop(_pickedLocation); //todo 6 (next location_input)
+                Navigator.of(context).pop(_pickedLocation);
               },
               icon: Icon(
                 Icons.check,
@@ -54,14 +54,17 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 16,
         ),
-        onTap: widget.isSelection == true ? _selectLocation : null, //todo 3
-        markers: _pickedLocation == null
+        onTap: widget.isSelection == true ? _selectLocation : null,
+        markers: (_pickedLocation == null && widget.isSelection == false) //todo 5
             ? {}
             : {
                 Marker(
-                  //todo 4
                   markerId: MarkerId('m1'),
-                  position: _pickedLocation!,
+                  position: _pickedLocation ?? //todo 6 (finish)
+                      LatLng(
+                        widget.initialLocation.latitude,
+                        widget.initialLocation.longitude,
+                      ),
                 ),
               },
       ),

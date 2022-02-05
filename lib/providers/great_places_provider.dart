@@ -15,15 +15,17 @@ class GreatPlacesProvider with ChangeNotifier {
     return [..._items];
   }
 
+  Place findById(String id){ //todo 1 (next place_list_screen)
+    return _items.firstWhere((element) => element.id == id);
+  }
+
   Future <void> addPlace(String pickedTitle, File pickedImage, PlaceLocation pickedLocation) async{ //todo 9
 
-    //todo 10
     final address = await LocationHelper.getPlaceAddress(
       pickedLocation.latitude,
       pickedLocation.longitude,
     );
 
-    //todo 11
     final updateLocation = PlaceLocation(
       latitude: pickedLocation.latitude,
       longitude: pickedLocation.longitude,
@@ -33,7 +35,7 @@ class GreatPlacesProvider with ChangeNotifier {
     final newPlace = Place(
       id: DateTime.now().toString(),
       title: pickedTitle,
-      location: updateLocation, //todo 12 (next db_helper)
+      location: updateLocation,
       image: pickedImage,
     );
 
@@ -44,9 +46,9 @@ class GreatPlacesProvider with ChangeNotifier {
       'id': newPlace.id,
       'title': newPlace.title,
       'image': newPlace.image.path,
-      'loc_lat' : newPlace.location?.latitude, //todo 14
-      'loc_lng' : newPlace.location?.longitude, //todo 15
-      'address' : newPlace.location?.address, //todo 16
+      'loc_lat' : newPlace.location?.latitude,
+      'loc_lng' : newPlace.location?.longitude,
+      'address' : newPlace.location?.address,
     });
   }
 
@@ -57,7 +59,7 @@ class GreatPlacesProvider with ChangeNotifier {
           (e) => Place(
             id: e['id'],
             title: e['title'],
-            location: PlaceLocation( //todo 17 (next place_list_screen)
+            location: PlaceLocation(
                 latitude: e['loc_lat'],
                 longitude: e['loc_lng'],
                 address: e['address']),

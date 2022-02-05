@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../screens/add_place_screen.dart';
 import '../providers/great_places_provider.dart';
+import '../screens/place_details_screen.dart';
 
 class PlaceListScreen extends StatelessWidget {
   const PlaceListScreen({Key? key}) : super(key: key);
@@ -23,10 +24,10 @@ class PlaceListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder( //todo 5
+      body: FutureBuilder(
         future: Provider.of<GreatPlacesProvider>(context, listen: false)
             .fetchAndSetPlaces(),
-        builder: (ctx, snapshot) => snapshot.connectionState == //todo 6 (finish)
+        builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(
                 child: CircularProgressIndicator(),
@@ -46,10 +47,15 @@ class PlaceListScreen extends StatelessWidget {
                           title: Text(
                             greatPlace.items[i].title,
                           ),
-                          subtitle: Text( //todo 18 (finish)
-                                    greatPlace.items[i].location?.address ?? '',
-                                  ),
-                          onTap: () {},
+                          subtitle: Text(
+                            greatPlace.items[i].location?.address ?? '',
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pushNamed( //todo 2 (next place_details_screen)
+                              PlaceDetailScreen.routeName,
+                              arguments: greatPlace.items[i].id,
+                            );
+                          },
                         ),
                       ),
               ),
